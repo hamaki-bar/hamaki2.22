@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Premium - Hamaki Bar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #8B4513;
+            --secondary: #C19A6B;
+            --accent: #D4AF37;
+            --gold: #FFD700;
+            --dark: #2C1810;
+            --darker: #1A0F08;
+            --light: #F5F5DC;
+            --text-light: #F8F8FF;
+            --text-muted: #A9A9A9;
+            --success: #32CD32;
+            --warning: #FFA500;
+            --danger: #DC143C;
+            --whisky: #B8860B;
+            --gin: #4ECDC4;
+            --beer: #FF9A76;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, #3E2723 100%);
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(139, 69, 19, 0.15) 0%, transparent 25%),
+                radial-gradient(circle at 80% 70%, rgba(193, 154, 107, 0.12) 0%, transparent 25%),
+                radial-gradient(circle at 40% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 25%);
+            z-index: -1;
+        }
+        
+        .luxury-border {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        .border-top, .border-bottom {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                var(--primary) 25%, 
+                var(--secondary) 50%, 
+                var(--accent) 75%, 
+                transparent 100%);
+        }
+        
+        .border-top { top: 0; }
+        .border-bottom { bottom: 0; }
+        
+        .border-left, .border-right {
+            position: absolute;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, 
+                transparent 0%, 
+                var(--primary) 25%, 
+                var(--secondary) 50%, 
+                var(--accent) 75%, 
+                transparent 100%);
+        }
+        
+        .border-left { left: 0; }
+        .border-right { right: 0; }
+        
+        .menu-header {
+            background: linear-gradient(135deg, 
+                rgba(44, 24, 16, 0.95) 0%, 
+                rgba(139, 69, 19, 0.98) 50%,
+                rgba(193, 154, 107, 0.95) 100%);
+            padding: 35px 20px;
+            text-align: center;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent)) 1;
+            margin-bottom: 35px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .brand-name {
+            font-size: 2.6rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--secondary), var(--gold), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        
+        .brand-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            font-weight: 300;
+        }
+        
+        .location {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+        
+        .cigar-card {
+            background: linear-gradient(145deg, 
+                rgba(31, 42, 56, 0.9) 0%, 
+                rgba(26, 35, 47, 0.95) 50%,
+                rgba(36, 49, 65, 0.9) 100%);
+            border: 2px solid transparent;
+            border-image: linear-gradient(45deg, var(--secondary), var(--accent)) 1;
+            border-radius: 16px;
+            padding: 25px 20px 20px 20px;
+            margin-bottom: 22px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            height: 100%;
+        }
+
+        .box-card {
+            border-image: linear-gradient(45deg, var(--primary), var(--accent)) 1;
+            background: linear-gradient(145deg, 
+                rgba(30, 65, 50, 0.9) 0%, 
+                rgba(20, 45, 35, 0.95) 50%,
+                rgba(40, 75, 55, 0.9) 100%);
+        }
+        
+        .cigar-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(255, 107, 53, 0.2);
+        }
+
+        .cigar-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin: 45px 0 15px 0;
+            line-height: 1.3;
+            border-bottom: 2px solid transparent;
+            border-image: linear-gradient(90deg, transparent, var(--secondary), transparent) 1;
+            padding-bottom: 12px;
+            text-align: center;
+        }
+
+        .cigar-price {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-align: center;
+            background: linear-gradient(45deg, var(--secondary), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cigar-notes {
+            font-style: italic;
+            color: var(--text-muted);
+            margin-top: 15px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .origin-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(45deg, var(--secondary), var(--gold));
+            color: var(--dark);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 2;
+            max-width: 80px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .strength-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            color: var(--light);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 2;
+            max-width: 80px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+        .strength-suave { background: linear-gradient(45deg, var(--success), #06D6A0); }
+        .strength-media { background: linear-gradient(45deg, var(--warning), #FFB347); color: var(--dark); }
+        .strength-fuerte { background: linear-gradient(45deg, var(--danger), #EF476F); }
+        .strength-media-fuerte { background: linear-gradient(45deg, #FF9E44, var(--danger)); }
+        .strength-suave-media { background: linear-gradient(45deg, var(--accent), #06D6A0); }
+
+        .filter-section {
+            background: linear-gradient(135deg, 
+                rgba(31, 42, 56, 0.9) 0%, 
+                rgba(26, 35, 47, 0.95) 100%);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 35px;
+            border: 2px solid rgba(255, 107, 53, 0.2);
+        }
+        
+        .filter-btn {
+            margin: 6px;
+            background: transparent;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .box-filter-btn {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--secondary);
+            color: var(--light);
+            transform: translateY(-3px);
+        }
+
+        .box-filter-btn:hover, .box-filter-btn.active {
+            background: var(--primary);
+            color: var(--light);
+        }
+
+        .section-title {
+            color: var(--secondary);
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, var(--secondary), var(--accent)) 1;
+            padding-bottom: 12px;
+            margin: 35px 0 25px 0;
+            font-size: 1.8rem;
+            text-align: center;
+            width: 100%;
+            font-weight: 700;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid transparent;
+            border-image: linear-gradient(90deg, transparent, var(--secondary), transparent) 1;
+        }
+        
+        .stat {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+        
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        
+        .footer {
+            background: linear-gradient(135deg, 
+                rgba(31, 42, 56, 0.9) 0%, 
+                rgba(26, 35, 47, 0.95) 100%);
+            padding: 30px;
+            text-align: center;
+            margin-top: 50px;
+            border-top: 3px solid transparent;
+            border-image: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent)) 1;
+            color: var(--text-muted);
+        }
+
+        /* Estilos para Mixología */
+        .mixology-section {
+            background: linear-gradient(135deg, 
+                rgba(31, 42, 56, 0.9) 0%, 
+                rgba(26, 35, 47, 0.95) 100%);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 40px 0;
+            border: 2px solid rgba(78, 205, 196, 0.3);
+        }
+
+        /* Estilos para Whiskys */
+        .whisky-section {
+            background: linear-gradient(135deg, 
+                rgba(42, 35, 26, 0.9) 0%, 
+                rgba(56, 42, 31, 0.95) 100%);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 40px 0;
+            border: 2px solid rgba(212, 175, 55, 0.4);
+        }
+
+        /* Estilos para Destilados */
+        .spirits-section {
+            background: linear-gradient(135deg, 
+                rgba(42, 35, 56, 0.9) 0%, 
+                rgba(56, 42, 71, 0.95) 100%);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 40px 0;
+            border: 2px solid rgba(148, 0, 211, 0.4);
+        }
+
+        /* Estilos para Cervezas */
+        .beer-section {
+            background: linear-gradient(135deg, 
+                rgba(56, 42, 35, 0.9) 0%, 
+                rgba(71, 56, 42, 0.95) 100%);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 40px 0;
+            border: 2px solid rgba(255, 154, 118, 0.4);
+        }
+
+        .whisky-category, .spirits-category, .beer-category {
+            margin-bottom: 35px;
+        }
+
+        .whisky-category-title {
+            color: var(--whisky);
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid transparent;
+            border-image: linear-gradient(90deg, transparent, var(--whisky), transparent) 1;
+            font-weight: 700;
+        }
+
+        .spirits-category-title {
+            color: var(--gin);
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid transparent;
+            border-image: linear-gradient(90deg, transparent, var(--gin), transparent) 1;
+            font-weight: 700;
+        }
+
+        .beer-category-title {
+            color: var(--beer);
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid transparent;
+            border-image: linear-gradient(90deg, transparent, var(--beer), transparent) 1;
+            font-weight: 700;
+        }
+
+        .whisky-card, .spirits-card, .beer-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .whisky-card {
+            border-left: 4px solid var(--whisky);
+        }
+
+        .spirits-card {
+            border-left: 4px solid var(--gin);
+        }
+
+        .beer-card {
+            border-left: 4px solid var(--beer);
+        }
+
+        .whisky-card:hover {
+            background: rgba(212, 175, 55, 0.1);
+            transform: translateX(5px);
+        }
+
+        .spirits-card:hover {
+            background: rgba(78, 205, 196, 0.1);
+            transform: translateX(5px);
+        }
+
+        .beer-card:hover {
+            background: rgba(255, 154, 118, 0.1);
+            transform: translateX(5px);
+        }
+
+        .whisky-name {
+            color: var(--whisky);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .spirits-name {
+            color: var(--gin);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .beer-name {
+            color: var(--beer);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .whisky-price {
+            color: var(--whisky);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .spirits-price {
+            color: var(--gin);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .beer-price {
+            color: var(--beer);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .cocktail-category {
+            margin-bottom: 35px;
+        }
+
+        .cocktail-category-title {
+            color: var(--accent);
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid transparent;
+            border-image: linear-gradient(90deg, transparent, var(--accent), transparent) 1;
+            font-weight: 700;
+        }
+
+        .cocktail-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .cocktail-card:hover {
+            background: rgba(78, 205, 196, 0.1);
+            transform: translateX(5px);
+        }
+
+        .cocktail-name {
+            color: var(--accent);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .cocktail-price {
+            color: var(--accent);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .cocktail-description {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .nav-tabs {
+            border-bottom: 2px solid rgba(255, 107, 53, 0.3);
+            margin-bottom: 25px;
+        }
+
+        .nav-tabs .nav-link {
+            color: var(--text-muted);
+            border: none;
+            font-weight: 600;
+            padding: 12px 20px;
+            margin-right: 5px;
+            border-radius: 8px 8px 0 0;
+            font-size: 0.9rem;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--secondary);
+            background: rgba(255, 107, 53, 0.1);
+            border-bottom: 3px solid var(--secondary);
+        }
+
+        .filter-title {
+            color: var(--secondary);
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .brand-name {
+                font-size: 2rem;
+            }
+            .nav-tabs .nav-link {
+                padding: 10px 12px;
+                font-size: 0.8rem;
+            }
+            .cigar-card {
+                padding: 20px 15px 15px 15px;
+            }
+            .origin-badge,
+            .strength-badge {
+                font-size: 0.65rem;
+                padding: 5px 10px;
+                max-width: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="luxury-border">
+        <div class="border-top"></div>
+        <div class="border-bottom"></div>
+        <div class="border-left"></div>
+        <div class="border-right"></div>
+    </div>
+
+    <div class="container py-4">
+        <div class="menu-header">
+            <h1 class="brand-name">HAMAKI BAR</h1>
+            <p class="brand-subtitle">by UMA UMA RAMEN</p>
+            <p class="location">
+                <i class="fas fa-map-marker-alt"></i> Justo Sierra 1988, Col. Americana, GDL
+            </p>
+        </div>
+
+        <ul class="nav nav-tabs justify-content-center" id="menuTabs">
+            <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#cigars">
+                    <i class="fas fa-smoking"></i> Puros
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#mixology">
+                    <i class="fas fa-cocktail"></i> Mixología
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#whisky">
+                    <i class="fas fa-whiskey-glass"></i> Whiskys
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#spirits">
+                    <i class="fas fa-wine-bottle"></i> Destilados
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#beer">
+                    <i class="fas fa-beer"></i> Cervezas
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <!-- Pestaña Puros -->
+            <div class="tab-pane fade show active" id="cigars">
+                <div class="filter-section">
+                    <h3 class="filter-title">
+                        <i class="fas fa-filter"></i> Filtrar Puros
+                    </h3>
+                    <div class="text-center">
+                        <button class="btn filter-btn active" onclick="filterSelection('all')">
+                            Todos
+                        </button>
+                        <button class="btn filter-btn box-filter-btn" onclick="filterSelection('box')">
+                            Por Caja
+                        </button>
+                        <button class="btn filter-btn" onclick="filterSelection('cuba')">
+                            Cuba
+                        </button>
+                        <button class="btn filter-btn" onclick="filterSelection('mexico')">
+                            México
+                        </button>
+                        <button class="btn filter-btn" onclick="filterSelection('nicaragua')">
+                            Nicaragua
+                        </button>
+                        <button class="btn filter-btn" onclick="filterSelection('honduras')">
+                            Honduras
+                        </button>
+                        <button class="btn filter-btn" onclick="filterSelection('dominicana')">
+                            Rep. Dominicana
+                        </button>
+                        <button class="btn filter-btn" onclick="filterSelection('usa')">
+                            USA
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row" id="cigar-list">
+                    <!-- Los puros se cargan aquí dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Pestaña Mixología -->
+            <div class="tab-pane fade" id="mixology">
+                <div class="mixology-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-cocktail"></i> Carta de Mixología
+                    </h2>
+                    
+                    <div class="cocktail-category">
+                        <h3 class="cocktail-category-title">CÓCTELES CLÁSICOS</h3>
+                        
+                        <div class="cocktail-card">
+                            <div class="cocktail-name">Piña Colada</div>
+                            <p class="cocktail-description">Ron blanco, crema de coco y jugo de piña natural.</p>
+                            <p class="cocktail-price">$80</p>
+                        </div>
+
+                        <div class="cocktail-card">
+                            <div class="cocktail-name">Martini Clásico</div>
+                            <p class="cocktail-description">Ginebra London Dry y Vermut Seco, removidos hasta el punto de congelación perfecto.</p>
+                            <p class="cocktail-price">$100</p>
+                        </div>
+
+                        <div class="cocktail-card">
+                            <div class="cocktail-name">Martini Manhattan</div>
+                            <p class="cocktail-description">Whisky Rye, Vermut Rojo y Amargo de Angostura.</p>
+                            <p class="cocktail-price">$100</p>
+                        </div>
+
+                        <div class="cocktail-card">
+                            <div class="cocktail-name">Martini Cosmopolitan</div>
+                            <p class="cocktail-description">Vodka cítrico, Cointreau, jugo de arándano y lima fresca.</p>
+                            <p class="cocktail-price">$100</p>
+                        </div>
+
+                        <div class="cocktail-card">
+                            <div class="cocktail-name">Negroni</div>
+                            <p class="cocktail-description">Ginebra, Campari y Vermut Rojo.</p>
+                            <p class="cocktail-price">$130</p>
+                        </div>
+
+                        <div class="cocktail-card">
+                            <div class="cocktail-name">Old Fashioned</div>
+                            <p class="cocktail-description">Bourbon, azúcar, Amargo de Angostura.</p>
+                            <p class="cocktail-price">$90</p>
+                        </div>
+
+                        <div class="cocktail-card">
+                            <div class="cocktail-name">Margarita</div>
+                            <p class="cocktail-description">Tequila 100% agave, Cointreau y jugo de lima fresca.</p>
+                            <p class="cocktail-price">$100</p>
+                        </div>
+                    </div>
+
+                    <div class="cocktail-category">
+                        <h3 class="cocktail-category-title">ELIXIRES CON CAFÉ</h3>
+                        
+                        <div class="cocktail-card">
+                            <div class="cocktail-name">Carajillo</div>
+                            <p class="cocktail-description">Espresso con Brandy o Ron oscuro.</p>
+                            <p class="cocktail-price">$130</p>
+                        </div>
+
+                        <div class="cocktail-card">
+                            <div class="cocktail-name">Carajilla</div>
+                            <p class="cocktail-description">Baileys y espresso caliente.</p>
+                            <p class="cocktail-price">$130</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pestaña Whiskys -->
+            <div class="tab-pane fade" id="whisky">
+                <div class="whisky-section">
+                    <h2 class="section-title" style="color: var(--whisky);">
+                        <i class="fas fa-whiskey-glass"></i> Selección de Whiskys
+                    </h2>
+                    
+                    <div class="whisky-category">
+                        <h3 class="whisky-category-title">WHISKYS ESCOCESES</h3>
+                        
+                        <div class="whisky-card">
+                            <div class="whisky-name">Laphroaig 10 Years</div>
+                            <p class="cocktail-description">Carácter ahumado intenso con notas medicinales.</p>
+                            <p class="whisky-price">$300</p>
+                        </div>
+
+                        <div class="whisky-card">
+                            <div class="whisky-name">Glenfiddich 12 Years</div>
+                            <p class="cocktail-description">Single malt suave con notas de pera y caramelo.</p>
+                            <p class="whisky-price">$300</p>
+                        </div>
+
+                        <div class="whisky-card">
+                            <div class="whisky-name">GlenAllachie 12 Years</div>
+                            <p class="cocktail-description">Single malt complejo con notas de miel y especias.</p>
+                            <p class="whisky-price">$650</p>
+                        </div>
+
+                        <div class="whisky-card">
+                            <div class="whisky-name">Lagavulin 16 Years</div>
+                            <p class="cocktail-description">Ahumado intenso con notas de turba y frutas secas.</p>
+                            <p class="whisky-price">$650</p>
+                        </div>
+
+                        <div class="whisky-card">
+                            <div class="whisky-name">Aberlour 12 Years</div>
+                            <p class="cocktail-description">Single malt con notas de frutos rojos y chocolate.</p>
+                            <p class="whisky-price">$450</p>
+                        </div>
+
+                        <div class="whisky-card">
+                            <div class="whisky-name">Kilkerran 12 Años</div>
+                            <p class="cocktail-description">Single malt complejo con notas cítricas y salinas.</p>
+                            <p class="whisky-price">$500</p>
+                        </div>
+
+                        <div class="whisky-card">
+                            <div class="whisky-name">Arran 10 Años</div>
+                            <p class="cocktail-description">Notas frutales con toques de vainilla y especias.</p>
+                            <p class="whisky-price">$360</p>
+                        </div>
+
+                        <div class="whisky-card">
+                            <div class="whisky-name">Glenfarclas 12 Años</div>
+                            <p class="cocktail-description">Single malt con carácter sherry y notas de frutos secos.</p>
+                            <p class="whisky-price">$400</p>
+                        </div>
+
+                        <div class="whisky-card">
+                            <div class="whisky-name">Redemption Rye Whiskey</div>
+                            <p class="cocktail-description">Whiskey rye americano con especias y notas herbales.</p>
+                            <p class="whisky-price">$180</p>
+                        </div>
+
+                        <div class="whisky-card">
+                            <div class="whisky-name">Los Republic Bourbon</div>
+                            <p class="cocktail-description">Bourbon suave con notas de caramelo y roble.</p>
+                            <p class="whisky-price">$250</p>
+                        </div>
+                    </div>
+
+                    <div class="whisky-category">
+                        <h3 class="whisky-category-title">WHISKYS JAPONESES</h3>
+                        
+                        <div class="whisky-card">
+                            <div class="whisky-name">Hibiki Suntory Whisky Master's Select</div>
+                            <p class="cocktail-description">Blend armonioso con sabores a naranja y miel.</p>
+                            <p class="whisky-price">$1000</p>
+                        </div>
+
+                        <div class="whisky-card">
+                            <div class="whisky-name">The Yamazaki Single Malt</div>
+                            <p class="cocktail-description">Single malt premium con notas de miel y frutas maduras.</p>
+                            <p class="whisky-price">$950</p>
+                        </div>
+
+                        <div class="whisky-card">
+                            <div class="whisky-name">Suntory Whisky TOKI</div>
+                            <p class="cocktail-description">Suave y versátil con notas de uva verde y miel.</p>
+                            <p class="whisky-price">$300</p>
+                        </div>
+
+                        <div class="whisky-card">
+                            <div class="whisky-name">Hibiki Japonés</div>
+                            <p class="cocktail-description">Blend premium con armonía perfecta de sabores.</p>
+                            <p class="whisky-price">$300</p>
+                        </div>
+
+                        <div class="whisky-card">
+                            <div class="whisky-name">Nikka Whisky From The Barrel</div>
+                            <p class="cocktail-description">Whisky robusto y complejo, blend de alta calidad.</p>
+                            <p class="whisky-price">$380</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pestaña Destilados -->
+            <div class="tab-pane fade" id="spirits">
+                <div class="spirits-section">
+                    <h2 class="section-title" style="color: var(--gin);">
+                        <i class="fas fa-wine-bottle"></i> Destilados y Rones
+                    </h2>
+                    
+                    <div class="spirits-category">
+                        <h3 class="spirits-category-title">GINEBRAS Y APERITIVOS</h3>
+                        
+                        <div class="spirits-card">
+                            <div class="spirits-name">Gin Roku</div>
+                            <p class="cocktail-description">Gin japonés con 6 botánicos tradicionales.</p>
+                            <p class="spirits-price">$120</p>
+                        </div>
+
+                        <div class="spirits-card">
+                            <div class="spirits-name">Vermut</div>
+                            <p class="cocktail-description">Aperitivo aromatizado con hierbas y especias.</p>
+                            <p class="spirits-price">$80</p>
+                        </div>
+
+                        <div class="spirits-card">
+                            <div class="spirits-name">Campari</div>
+                            <p class="cocktail-description">Bitter italiano de color rojo intenso.</p>
+                            <p class="spirits-price">$80</p>
+                        </div>
+
+                        <div class="spirits-card">
+                            <div class="spirits-name">Licor 43</div>
+                            <p class="cocktail-description">Licor español con 43 hierbas y especias.</p>
+                            <p class="spirits-price">$100</p>
+                        </div>
+
+                        <div class="spirits-card">
+                            <div class="spirits-name">Baileys</div>
+                            <p class="cocktail-description">Crema de whisky irlandés con chocolate.</p>
+                            <p class="spirits-price">$80</p>
+                        </div>
+                    </div>
+
+                    <div class="spirits-category">
+                        <h3 class="spirits-category-title">RONES Y TEQUILAS</h3>
+                        
+                        <div class="spirits-card">
+                            <div class="spirits-name">Havana Club 3 Años</div>
+                            <p class="cocktail-description">Ron cubano añejado 3 años, suave y versátil.</p>
+                            <p class="spirits-price">$60</p>
+                        </div>
+
+                        <div class="spirits-card">
+                            <div class="spirits-name">Tequila 7 Lenguas</div>
+                            <p class="cocktail-description">Tequila 100% agave con carácter y tradición.</p>
+                            <p class="spirits-price">$120</p>
+                        </div>
+
+                        <div class="spirits-card">
+                            <div class="spirits-name">Ron Santiago de Cuba</div>
+                            <p class="cocktail-description">Ron premium cubano, añejado cuidadosamente.</p>
+                            <p class="spirits-price">$250</p>
+                        </div>
+
+                        <div class="spirits-card">
+                            <div class="spirits-name">Mezcal Ojo de Tigre</div>
+                            <p class="cocktail-description">Mezcal artesanal con notas ahumadas.</p>
+                            <p class="spirits-price">$100</p>
+                        </div>
+                    </div>
+
+                    <div class="spirits-category">
+                        <h3 class="spirits-category-title">BOURBON Y OTROS</h3>
+                        
+                        <div class="spirits-card">
+                            <div class="spirits-name">Jim Beam Bourbon</div>
+                            <p class="cocktail-description">Bourbon americano clásico, suave y accesible.</p>
+                            <p class="spirits-price">$90</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pestaña Cervezas -->
+            <div class="tab-pane fade" id="beer">
+                <div class="beer-section">
+                    <h2 class="section-title" style="color: var(--beer);">
+                        <i class="fas fa-beer"></i> Selección de Cervezas
+                    </h2>
+                    
+                    <div class="beer-category">
+                        <h3 class="beer-category-title">CERVEZAS NACIONALES E INTERNACIONALES</h3>
+                        
+                        <div class="beer-card">
+                            <div class="beer-name">Corona Clara</div>
+                            <p class="cocktail-description">Cerveza lager mexicana, refrescante y suave.</p>
+                            <p class="beer-price">$40</p>
+                        </div>
+
+                        <div class="beer-card">
+                            <div class="beer-name">Minerva Stout</div>
+                            <p class="cocktail-description">Cerveza oscura con notas de café y chocolate.</p>
+                            <p class="beer-price">$100</p>
+                        </div>
+
+                        <div class="beer-card">
+                            <div class="beer-name">Minerva Pale Ale</div>
+                            <p class="cocktail-description">Cerveza artesanal con lúpulo aromático.</p>
+                            <p class="beer-price">$100</p>
+                        </div>
+
+                        <div class="beer-card">
+                            <div class="beer-name">Minerva Viena</div>
+                            <p class="cocktail-description">Cerveza estilo vienna lager, maltosa y balanceada.</p>
+                            <p class="beer-price">$100</p>
+                        </div>
+
+                        <div class="beer-card">
+                            <div class="beer-name">Izekado Hime White</div>
+                            <p class="cocktail-description">Cerveza de trigo japonesa, suave y refrescante.</p>
+                            <p class="beer-price">$140</p>
+                        </div>
+
+                        <div class="beer-card">
+                            <div class="beer-name">Izekado Pale Ale</div>
+                            <p class="cocktail-description">Pale ale japonesa con carácter lupulado.</p>
+                            <p class="beer-price">$140</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2024 Hamaki Bar - Experiencia Premium en Puros, Mixología y Whiskys</p>
+            <p class="mb-0">Ambiente sofisticado • Selección exclusiva • Tradición y calidad</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // DATOS COMPLETOS DE TODOS LOS PUROS
+        const cigars = [
+            // Puros Mexicanos
+            {
+                name: "SAN ANDRÉS TUXTLA (Panetelas)",
+                price: "$35",
+                strength: "Media",
+                size: "4.5x33",
+                origin: "mexico",
+                notes: "Tabaco mexicano de alta calidad en formato panetela",
+                isBox: false
+            },
+            {
+                name: "SAN ANDRÉS TUXTLA (Torpedo)",
+                price: "$85",
+                strength: "Media",
+                size: "6x52",
+                origin: "mexico",
+                notes: "Formato torpedo con tabaco de San Andrés Tuxtla",
+                isBox: false
+            },
+            {
+                name: "TE AMO TORPEDO",
+                price: "$85",
+                strength: "Media",
+                size: "6x52",
+                origin: "mexico",
+                notes: "Torpedo robusto con excelente construcción",
+                isBox: false
+            },
+            {
+                name: "TE AMO ROBUSTO",
+                price: "$75",
+                strength: "Media",
+                size: "5x50",
+                origin: "mexico",
+                notes: "Robusto balanceado y aromático",
+                isBox: false
+            },
+
+            // Puros Cubanos (Individuales)
+            {
+                name: "QUAI DORSAY .54",
+                price: "$350",
+                strength: "Suave",
+                size: "4.5x54",
+                origin: "cuba",
+                notes: "Edmundo grueso de origen cubano",
+                isBox: false
+            },
+            {
+                name: "H. UPMANN HALF CORONA",
+                price: "$250",
+                strength: "Suave-Medio",
+                size: "3.5x44",
+                origin: "cuba",
+                notes: "Perfecto para una pausa corta",
+                isBox: false
+            },
+            {
+                name: "MONTECRISTO OPEN EAGLE",
+                price: "$450",
+                strength: "Media",
+                size: "5.5x46",
+                origin: "cuba",
+                notes: "Exquisito y complejo",
+                isBox: false
+            },
+            {
+                name: "JOSE L. PIEDRA - CAZADORES",
+                price: "$120",
+                strength: "Media-Fuerte",
+                size: "6.5x43",
+                origin: "cuba",
+                notes: "Sabor intenso y persistente",
+                isBox: false
+            },
+            {
+                name: "BOLIVAR BELICOSOS FINOS",
+                price: "$380",
+                strength: "Fuerte",
+                size: "5x52",
+                origin: "cuba",
+                notes: "Potente y lleno de carácter",
+                isBox: false
+            },
+            {
+                name: "COHIBA SIGLO I",
+                price: "$420",
+                strength: "Suave",
+                size: "4x40",
+                origin: "cuba",
+                notes: "Clásico cubano de alta gama",
+                isBox: false
+            },
+            {
+                name: "PARTAGAS SERIE D No.4",
+                price: "$320",
+                strength: "Media-Fuerte",
+                size: "4.8x50",
+                origin: "cuba",
+                notes: "Robusto con sabor especiado",
+                isBox: false
+            },
+            {
+                name: "ROMEO Y JULIETA No.2",
+                price: "$280",
+                strength: "Media",
+                size: "4.8x52",
+                origin: "cuba",
+                notes: "Piramide elegante y suave",
+                isBox: false
+            },
+            {
+                name: "HOYO DE MONTERREY - EPICURE No.2",
+                price: "$360",
+                strength: "Suave-Medio",
+                size: "4.8x50",
+                origin: "cuba",
+                notes: "Cremoso y delicado",
+                isBox: false
+            },
+
+            // Puros por Caja
+            {
+                name: "QUAI DORSAY .54",
+                price: "$7000 caja",
+                strength: "Suave",
+                size: "4.5x54",
+                origin: "cuba",
+                notes: "Edmundo grueso de origen cubano - Caja completa",
+                isBox: true
+            },
+            {
+                name: "H. UPMANN HALF CORONA",
+                price: "$5000 caja",
+                strength: "Suave-Medio",
+                size: "3.5x44",
+                origin: "cuba",
+                notes: "Perfecto para una pausa corta - Caja completa",
+                isBox: true
+            },
+            {
+                name: "MONTECRISTO OPEN EAGLE",
+                price: "$9000 caja",
+                strength: "Media",
+                size: "5.5x46",
+                origin: "cuba",
+                notes: "Exquisito y complejo - Caja completa",
+                isBox: true
+            },
+            {
+                name: "JOSE L. PIEDRA - CAZADORES",
+                price: "$2400 caja",
+                strength: "Media-Fuerte",
+                size: "6.5x43",
+                origin: "cuba",
+                notes: "Sabor intenso y persistente - Caja completa",
+                isBox: true
+            },
+            {
+                name: "BOLIVAR BELICOSOS FINOS",
+                price: "$7600 caja",
+                strength: "Fuerte",
+                size: "5x52",
+                origin: "cuba",
+                notes: "Potente y lleno de carácter - Caja completa",
+                isBox: true
+            },
+            {
+                name: "COHIBA SIGLO I",
+                price: "$8400 caja",
+                strength: "Suave",
+                size: "4x40",
+                origin: "cuba",
+                notes: "Clásico cubano de alta gama - Caja completa",
+                isBox: true
+            },
+            {
+                name: "PARTAGAS SERIE D No.4",
+                price: "$6400 caja",
+                strength: "Media-Fuerte",
+                size: "4.8x50",
+                origin: "cuba",
+                notes: "Robusto con sabor especiado - Caja completa",
+                isBox: true
+            },
+            {
+                name: "ROMEO Y JULIETA No.2",
+                price: "$5600 caja",
+                strength: "Media",
+                size: "4.8x52",
+                origin: "cuba",
+                notes: "Piramide elegante y suave - Caja completa",
+                isBox: true
+            },
+            {
+                name: "HOYO DE MONTERREY - EPICURE No.2",
+                price: "$7200 caja",
+                strength: "Suave-Medio",
+                size: "4.8x50",
+                origin: "cuba",
+                notes: "Cremoso y delicado - Caja completa",
+                isBox: true
+            },
+
+            // Puros Nicaragua
+            {
+                name: "CAO ZÓCALO (Robusto)",
+                price: "$4500 caja",
+                strength: "Media",
+                size: "Robusto",
+                origin: "nicaragua",
+                notes: "Robusto de alta calidad",
+                isBox: true
+            },
+            {
+                name: "PERDOMO 20TH ANNIVERSARY MADURO (Robusto)",
+                price: "$110",
+                strength: "Media-Fuerte",
+                size: "Robusto",
+                origin: "nicaragua",
+                notes: "Maduro intenso con 20 años de añejamiento",
+                isBox: false
+            },
+            {
+                name: "PERDOMO 20TH ANNIVERSARY MADURO (Toro)",
+                price: "$120",
+                strength: "Media-Fuerte",
+                size: "Toro",
+                origin: "nicaragua",
+                notes: "Toro maduro con complejidad excepcional",
+                isBox: false
+            },
+            {
+                name: "PERDOMO 20TH ANNIVERSARY MADURO (Gordito)",
+                price: "$130",
+                strength: "Media-Fuerte",
+                size: "Gordito",
+                origin: "nicaragua",
+                notes: "Formato gordito para experiencia prolongada",
+                isBox: false
+            },
+            {
+                name: "PERDOMO 20TH ANNIVERSARY SUN GROWN (Robusto)",
+                price: "$110",
+                strength: "Media",
+                size: "Robusto",
+                origin: "nicaragua",
+                notes: "Sun grown con notas especiadas",
+                isBox: false
+            },
+            {
+                name: "PERDOMO 20TH ANNIVERSARY SUN GROWN (Toro)",
+                price: "$120",
+                strength: "Media",
+                size: "Toro",
+                origin: "nicaragua",
+                notes: "Toro sun grown balanceado",
+                isBox: false
+            },
+            {
+                name: "PERDOMO 20TH ANNIVERSARY SUN GROWN (Gordito)",
+                price: "$130",
+                strength: "Media",
+                size: "Gordito",
+                origin: "nicaragua",
+                notes: "Gordito sun grown aromático",
+                isBox: false
+            },
+
+            // Puros Honduras
+            {
+                name: "H. UPMANN BY AJ FERNANDEZ (Robusto)",
+                price: "$90",
+                strength: "Media",
+                size: "Robusto",
+                origin: "honduras",
+                notes: "Robusto con tradición Upmann",
+                isBox: false
+            },
+            {
+                name: "H. UPMANN BY AJ FERNANDEZ (Toro)",
+                price: "$100",
+                strength: "Media",
+                size: "Toro",
+                origin: "honduras",
+                notes: "Toro de construcción impecable",
+                isBox: false
+            },
+
+            // Puros República Dominicana
+            {
+                name: "DAVIDOFF MILLENNIUM BLEND (Robusto)",
+                price: "$180",
+                strength: "Media",
+                size: "Robusto",
+                origin: "dominicana",
+                notes: "Premium dominicano de lujo",
+                isBox: false
+            },
+            {
+                name: "DAVIDOFF MILLENNIUM BLEND (Toro)",
+                price: "$200",
+                strength: "Media",
+                size: "Toro",
+                origin: "dominicana",
+                notes: "Toro premium excepcional",
+                isBox: false
+            },
+            {
+                name: "DAVIDOFF MILLENNIUM BLEND (Piramides)",
+                price: "$220",
+                strength: "Media",
+                size: "Piramides",
+                origin: "dominicana",
+                notes: "Formato piramides elegante",
+                isBox: false
+            },
+            {
+                name: "DAVIDOFF WINSTON CHURCHILL (Robusto)",
+                price: "$190",
+                strength: "Suave-Medio",
+                size: "Robusto",
+                origin: "dominicana",
+                notes: "Tributo al primer ministro británico",
+                isBox: false
+            },
+            {
+                name: "DAVIDOFF WINSTON CHURCHILL (Toro)",
+                price: "$210",
+                strength: "Suave-Medio",
+                size: "Toro",
+                origin: "dominicana",
+                notes: "Toro con elegancia británica",
+                isBox: false
+            },
+
+            // Puros USA
+            {
+                name: "ROCKY PATEL 1990 (Robusto)",
+                price: "$95",
+                strength: "Media-Fuerte",
+                size: "Robusto",
+                origin: "usa",
+                notes: "Robusto con carácter americano",
+                isBox: false
+            },
+            {
+                name: "ROCKY PATEL 1990 (Toro)",
+                price: "$105",
+                strength: "Media-Fuerte",
+                size: "Toro",
+                origin: "usa",
+                notes: "Toro robusto y complejo",
+                isBox: false
+            },
+            {
+                name: "ROCKY PATEL 1990 (Gordito)",
+                price: "$115",
+                strength: "Media-Fuerte",
+                size: "Gordito",
+                origin: "usa",
+                notes: "Gordito de sabor intenso",
+                isBox: false
+            },
+            {
+                name: "ROCKY PATEL 1992 (Robusto)",
+                price: "$100",
+                strength: "Media",
+                size: "Robusto",
+                origin: "usa",
+                notes: "Robusto balanceado y suave",
+                isBox: false
+            },
+            {
+                name: "ROCKY PATEL 1992 (Toro)",
+                price: "$110",
+                strength: "Media",
+                size: "Toro",
+                origin: "usa",
+                notes: "Toro con excelente combustión",
+                isBox: false
+            },
+            {
+                name: "ROCKY PATEL 1992 (Gordito)",
+                price: "$120",
+                strength: "Media",
+                size: "Gordito",
+                origin: "usa",
+                notes: "Gordito aromático y persistente",
+                isBox: false
+            }
+        ];
+
+        // Función para cargar los puros en la página
+        function loadCigars(filter = 'all') {
+            const cigarList = document.getElementById('cigar-list');
+            cigarList.innerHTML = '';
+            
+            const filteredCigars = cigars.filter(cigar => {
+                if (filter === 'all') return true;
+                if (filter === 'box') return cigar.isBox;
+                return cigar.origin === filter;
+            });
+            
+            // Mostrar mensaje si no hay resultados
+            if (filteredCigars.length === 0) {
+                cigarList.innerHTML = `
+                    <div class="col-12 text-center">
+                        <div class="cigar-card">
+                            <h3 class="cigar-name">No se encontraron puros</h3>
+                            <p class="cigar-notes">No hay puros disponibles para esta categoría.</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredCigars.forEach(cigar => {
+                const strengthClass = `strength-${cigar.strength.toLowerCase().replace(' ', '-').replace(' ', '-')}`;
+                
+                const cigarCard = `
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="cigar-card ${cigar.isBox ? 'box-card' : ''}">
+                            <div class="origin-badge">
+                                ${cigar.origin.toUpperCase()}
+                            </div>
+                            <div class="strength-badge ${strengthClass}">
+                                ${cigar.strength}
+                            </div>
+                            
+                            <h3 class="cigar-name">${cigar.name}</h3>
+                            <div class="cigar-price">${cigar.price}</div>
+                            
+                            <div class="stats-bar">
+                                <div class="stat">
+                                    <div class="stat-value">${cigar.size}</div>
+                                    <div class="stat-label">Tamaño</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">${cigar.isBox ? 'Caja' : 'Individual'}</div>
+                                    <div class="stat-label">Presentación</div>
+                                </div>
+                            </div>
+                            
+                            <p class="cigar-notes">${cigar.notes}</p>
+                        </div>
+                    </div>
+                `;
+                
+                cigarList.innerHTML += cigarCard;
+            });
+        }
+
+        // Función para filtrar
+        function filterSelection(filter) {
+            // Remover clase active de todos los botones
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Agregar clase active al botón clickeado
+            event.target.classList.add('active');
+            loadCigars(filter);
+        }
+
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCigars('all');
+            
+            // Activar los tabs de Bootstrap
+            var triggerTabList = [].slice.call(document.querySelectorAll('#menuTabs button'))
+            triggerTabList.forEach(function (triggerEl) {
+                var tabTrigger = new bootstrap.Tab(triggerEl)
+                
+                triggerEl.addEventListener('click', function (event) {
+                    event.preventDefault()
+                    tabTrigger.show()
+                })
+            });
+        });
+    </script>
+</body>
+</html>
